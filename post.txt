@@ -1,0 +1,1 @@
+curl -is -XPOST -H "Content-Type: application/json" -d '{ "id": "abc123def456", "data": [ { "key":"37","value":"Jane Doe","ts":1234567890 } ] }' 127.0.0.1:8888
