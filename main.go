@@ -136,9 +136,6 @@ func (d *Dispatcher) dispatch() {
 
 // HTTP --------------------------------------------------------------------------------------------
 
-// Max request size
-var maxBodyLength = int64(10 * 1024 * 1024) // 10MB
-
 // Request handler function.
 func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
@@ -147,7 +144,8 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	// Decode json payload sequence
 	var content = &PayloadSeq{}
-	err := json.NewDecoder(io.LimitReader(r.Body, maxBodyLength)).Decode(&content)
+	// Limit request size to 10MB
+	err := json.NewDecoder(io.LimitReader(r.Body, (10 << 20))).Decode(&content)
 	if err != nil {
 		log.Println(err)
 		w.Header().Set("Content-Type", "text/plain")
